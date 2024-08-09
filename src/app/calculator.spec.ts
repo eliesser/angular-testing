@@ -1,7 +1,7 @@
 import { Calculator } from './calculator';
 
-describe('Test for Calculator', () => {
-  describe('Test for multiply', () => {
+describe('Calculator', () => {
+  describe('multiply', () => {
     it('should return a nine', () => {
       //AAA
       //Arrange
@@ -22,7 +22,7 @@ describe('Test for Calculator', () => {
       expect(rta).toEqual(4);
     });
   });
-  describe('Test for divide', () => {
+  describe('divide', () => {
     it('should return a two', () => {
       //AAA
       //Arrange

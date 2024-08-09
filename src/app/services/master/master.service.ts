@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { ValueService } from './value.service';
+import { ValueService } from '../value/value.service';
 
 @Injectable({
   providedIn: 'root',

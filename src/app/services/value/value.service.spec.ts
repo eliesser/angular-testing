@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ValueService } from './value.service';
 
-describe('Test for ValueService', () => {
+describe('ValueService', () => {
   let service: ValueService;
 
   beforeEach(() => {
@@ -15,7 +15,7 @@ describe('Test for ValueService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('Test for getValue', () => {
+  describe('getValue', () => {
     it('should return "my value"', () => {
       const value = service.getValue();
 
@@ -23,7 +23,7 @@ describe('Test for ValueService', () => {
     });
   });
 
-  describe('Test for setValue', () => {
+  describe('setValue', () => {
     it('should change the value', () => {
       service.setValue('change');
       const value = service.getValue();
@@ -31,7 +31,7 @@ describe('Test for ValueService', () => {
     });
   });
 
-  describe('Test for getPromiseValue', () => {
+  describe('getPromiseValue', () => {
     it('should return "Promise value" from promise', async () => {
       const value = await service.getPromiseValue();
 
@@ -39,7 +39,7 @@ describe('Test for ValueService', () => {
     });
   });
 
-  describe('Test for getObservableValue', () => {
+  describe('getObservableValue', () => {
     it('should return "Observable value" from Observable', (doneFn) => {
       service.getObservableValue().subscribe((value) => {
         expect(value).toBe('Observable value');

@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { ProductsComponent } from './components/products/products.component';
-import { PipoPreviewComponent } from './components/pipo-preview/pipo-preview.component';
+import { PicoPreviewComponent } from './components/pico-preview/pico-preview.component';
 
 export const routes: Routes = [
   {
@@ -10,6 +10,6 @@ export const routes: Routes = [
   },
   {
     path: 'pico-preview',
-    component: PipoPreviewComponent,
+    component: PicoPreviewComponent,
   },
 ];
