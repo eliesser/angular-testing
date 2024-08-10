@@ -40,8 +40,6 @@ describe('AuthService', () => {
 
   describe('login', () => {
     it('should return access_token', (doneFn) => {
-      console.log('Test started');
-
       const mockData: Auth = {
         access_token: '121212',
       };
@@ -51,7 +49,6 @@ describe('AuthService', () => {
 
       authService.login(email, password).subscribe({
         next: (data) => {
-          console.log('Response received');
           expect(data).toEqual(mockData);
           expect(tokenService.saveToken).toHaveBeenCalledTimes(1);
           expect(tokenService.saveToken).toHaveBeenCalledOnceWith(
@@ -60,14 +57,12 @@ describe('AuthService', () => {
           doneFn();
         },
         error: (error) => {
-          console.error('Error occurred', error);
           doneFn.fail('Request failed');
         },
       });
 
       const url = `${environment.API_URL}/auth/login`;
       const req = httpController.expectOne(url);
-      console.log('Request intercepted');
       expect(req.request.body).toEqual({ email, password });
       expect(req.request.method).toEqual('POST');
       req.flush(mockData);
