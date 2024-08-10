@@ -17,7 +17,7 @@ describe('MapsService', () => {
     expect(mapService).toBeTruthy();
   });
 
-  fdescribe('getCurrentPosition', () => {
+  describe('getCurrentPosition', () => {
     it('should save the center', () => {
       //Arrange
       spyOn(navigator.geolocation, 'getCurrentPosition').and.callFake(
