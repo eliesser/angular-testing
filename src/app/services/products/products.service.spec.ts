@@ -3,7 +3,13 @@ import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { HttpStatusCode, provideHttpClient } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpStatusCode,
+  provideHttpClient,
+  withInterceptors,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 import { ProductsService } from './products.service';
 import {
@@ -16,22 +22,27 @@ import {
   generateManyProducts,
   generateOneProduct,
 } from '../../models/products.mock';
+import { TokenService } from '../token/token.service';
+import { TokenInterceptor } from '../../interceptors/token/token.interceptor';
 
-fdescribe('ProductsService', () => {
+describe('ProductsService', () => {
   let productsService: ProductsService;
   let httpController: HttpTestingController;
+  let tokenService: TokenService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         ProductsService,
-        provideHttpClient(),
+        TokenService,
+        { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+        provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });
     productsService = TestBed.inject(ProductsService);
     httpController = TestBed.inject(HttpTestingController);
+    tokenService = TestBed.inject(TokenService);
   });
 
   afterEach(() => {
@@ -45,6 +56,8 @@ fdescribe('ProductsService', () => {
   describe('getAllSimple', () => {
     it('should return a products list', (doneFn) => {
       const mockData: Product[] = generateManyProducts(2);
+      const token = '123';
+      spyOn(tokenService, 'getToken').and.returnValue(token);
 
       productsService.getAllSimple().subscribe((products) => {
         expect(products.length).toEqual(mockData.length);
@@ -52,9 +65,12 @@ fdescribe('ProductsService', () => {
         doneFn();
       });
 
-      const url = `${environment.API_URL}/api/v1/products`;
+      const url = `${environment.API_URL}/products`;
       const req = httpController.expectOne(url);
       req.flush(mockData);
+      const headers = req.request.headers;
+      expect(headers.has('Authorization')).toBeTrue();
+      expect(headers.get('Authorization')).toEqual(`Bearer ${token}`);
     });
   });
 
@@ -67,7 +83,7 @@ fdescribe('ProductsService', () => {
         doneFn();
       });
 
-      const url = `${environment.API_URL}/api/v1/products`;
+      const url = `${environment.API_URL}/products`;
       const req = httpController.expectOne(url);
       req.flush(mockData);
     });
@@ -100,7 +116,7 @@ fdescribe('ProductsService', () => {
         doneFn();
       });
 
-      const url = `${environment.API_URL}/api/v1/products`;
+      const url = `${environment.API_URL}/products`;
       const req = httpController.expectOne(url);
       req.flush(mockData);
     });
@@ -115,7 +131,7 @@ fdescribe('ProductsService', () => {
         doneFn();
       });
 
-      const url = `${environment.API_URL}/api/v1/products?limit=${limit}&offset=${offset}`;
+      const url = `${environment.API_URL}/products?limit=${limit}&offset=${offset}`;
       const req = httpController.expectOne(url);
       const params = req.request.params;
       expect(params.get('limit')).toEqual(`${limit}`);
@@ -140,7 +156,7 @@ fdescribe('ProductsService', () => {
         doneFn();
       });
 
-      const url = `${environment.API_URL}/api/v1/products`;
+      const url = `${environment.API_URL}/products`;
       const req = httpController.expectOne(url);
       expect(req.request.body).toEqual(productDTO);
       expect(req.request.method).toEqual('POST');
@@ -160,7 +176,7 @@ fdescribe('ProductsService', () => {
         doneFn();
       });
 
-      const url = `${environment.API_URL}/api/v1/products/${productId}`;
+      const url = `${environment.API_URL}/products/${productId}`;
       const req = httpController.expectOne(url);
       expect(req.request.method).toEqual('PUT');
       expect(req.request.body).toEqual(dto);
@@ -178,7 +194,7 @@ fdescribe('ProductsService', () => {
         doneFn();
       });
 
-      const url = `${environment.API_URL}/api/v1/products/${id}`;
+      const url = `${environment.API_URL}/products/${id}`;
       const req = httpController.expectOne(url);
       expect(req.request.method).toEqual('DELETE');
       req.flush(mockData);
@@ -195,7 +211,7 @@ fdescribe('ProductsService', () => {
         doneFn();
       });
 
-      const url = `${environment.API_URL}/api/v1/products/${productId}`;
+      const url = `${environment.API_URL}/products/${productId}`;
       const req = httpController.expectOne(url);
       expect(req.request.method).toEqual('GET');
       req.flush(mockData);
@@ -216,7 +232,7 @@ fdescribe('ProductsService', () => {
         },
       });
 
-      const url = `${environment.API_URL}/api/v1/products/${productId}`;
+      const url = `${environment.API_URL}/products/${productId}`;
       const req = httpController.expectOne(url);
       expect(req.request.method).toEqual('GET');
       req.flush(msgError, mockError);
@@ -237,7 +253,7 @@ fdescribe('ProductsService', () => {
         },
       });
 
-      const url = `${environment.API_URL}/api/v1/products/${productId}`;
+      const url = `${environment.API_URL}/products/${productId}`;
       const req = httpController.expectOne(url);
       expect(req.request.method).toEqual('GET');
       req.flush(msgError, mockError);
@@ -258,7 +274,7 @@ fdescribe('ProductsService', () => {
         },
       });
 
-      const url = `${environment.API_URL}/api/v1/products/${productId}`;
+      const url = `${environment.API_URL}/products/${productId}`;
       const req = httpController.expectOne(url);
       expect(req.request.method).toEqual('GET');
       req.flush(msgError, mockError);
@@ -279,7 +295,7 @@ fdescribe('ProductsService', () => {
         },
       });
 
-      const url = `${environment.API_URL}/api/v1/products/${productId}`;
+      const url = `${environment.API_URL}/products/${productId}`;
       const req = httpController.expectOne(url);
       expect(req.request.method).toEqual('GET');
       req.flush(msgError, mockError);
