@@ -12,6 +12,7 @@ import {
   asyncData,
   clickElement,
   getText,
+  mockObservable,
   query,
   queryAllByDirective,
 } from '../testing';
@@ -23,17 +24,21 @@ import { PicoPreviewComponent } from './components/pico-preview/pico-preview.com
 import { provideHttpClient } from '@angular/common/http';
 import { ProductsService } from './services/products/products.service';
 import { generateManyProducts } from './models/products.mock';
+import { AuthService } from './services/auth/auth.service';
+import { generateOneUser } from './models/user.mock';
 
-xdescribe('App Integration test', () => {
+describe('App Integration test', () => {
   let fixture: ComponentFixture<AppComponent>;
   let component: AppComponent;
   let router: Router;
   let productService: jasmine.SpyObj<ProductsService>;
+  let authService: jasmine.SpyObj<AuthService>;
 
   beforeEach(async () => {
     const productServiceSpy = jasmine.createSpyObj('ProductsService', [
       'getAll',
     ]);
+    const authServiceSpy = jasmine.createSpyObj('AuthService', ['getUser']);
 
     await TestBed.configureTestingModule({
       imports: [
@@ -41,10 +46,13 @@ xdescribe('App Integration test', () => {
         PeopleComponent,
         PicoPreviewComponent,
         OthersComponent,
-        provideHttpClient(),
         RouterTestingModule.withRoutes(routes),
       ],
-      providers: [{ provide: ProductsService, useValue: productServiceSpy }],
+      providers: [
+        provideHttpClient(),
+        { provide: ProductsService, useValue: productServiceSpy },
+        { provide: AuthService, useValue: authServiceSpy },
+      ],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   });
@@ -58,6 +66,7 @@ xdescribe('App Integration test', () => {
     productService = TestBed.inject(
       ProductsService
     ) as jasmine.SpyObj<ProductsService>;
+    authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
 
     router.initialNavigation();
 
@@ -74,9 +83,12 @@ xdescribe('App Integration test', () => {
     expect(links.length).toEqual(7);
   });
 
-  it('should render OtherComponent when clicked', fakeAsync(() => {
+  it('should render OtherComponent when clicked with session', fakeAsync(() => {
     const productsMocks = generateManyProducts(10);
     productService.getAll.and.returnValue(asyncData(productsMocks));
+
+    const userMock = generateOneUser();
+    authService.getUser.and.returnValue(mockObservable(userMock));
 
     clickElement(fixture, 'others-link', true);
 
@@ -91,6 +103,20 @@ xdescribe('App Integration test', () => {
     expect(element).not.toBeNull();
     const text = getText(fixture, 'products-length');
     expect(text).toContain(productsMocks.length);
+  }));
+
+  it('should render OtherComponent when clicked without session', fakeAsync(() => {
+    authService.getUser.and.returnValue(mockObservable(null));
+
+    clickElement(fixture, 'others-link', true);
+
+    tick(); // wait while nav...
+    fixture.detectChanges(); // ngOnInit - OthersComponent
+
+    tick(); // exex getAll
+    fixture.detectChanges();
+
+    expect(router.url).toEqual('/');
   }));
 
   it('should render PicoPreviewComponent when clicked', fakeAsync(() => {
