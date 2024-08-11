@@ -6,7 +6,6 @@ import {
   tick,
 } from '@angular/core/testing';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { By } from '@angular/platform-browser';
 
 import { ProductsComponent } from './products.component';
 import { ProductComponent } from '../product/product.component';
@@ -18,6 +17,8 @@ import {
   asyncError,
   mockObservable,
   mockPromise,
+  query,
+  queryById,
 } from '../../../testing';
 
 describe('ProductsComponent', () => {
@@ -126,12 +127,12 @@ describe('ProductsComponent', () => {
       // Arrange
       const mockMsg = 'my mock string';
       valueService.getPromiseValue.and.returnValue(mockPromise(mockMsg));
-      const btnDe = fixture.debugElement.query(By.css('button'));
+      const btnDe = queryById(fixture, 'btn-promise');
       // Act
       btnDe.triggerEventHandler('click', null);
       tick();
       fixture.detectChanges();
-      const rtaDe = fixture.debugElement.query(By.css('p'));
+      const rtaDe = query(fixture, 'p');
       // Assert
       expect(component.rta).toEqual(mockMsg);
       expect(valueService.getPromiseValue).toHaveBeenCalled();

@@ -1,9 +1,9 @@
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 
 import { PersonComponent } from './person.component';
 import { Person } from '../../models/person';
+import { query } from '../../../testing';
 
 describe('PersonComponent', () => {
   let component: PersonComponent;
@@ -32,7 +32,7 @@ describe('PersonComponent', () => {
     // Arrange
     component.person = new Person('Valentina', 'Molina', 28, 89, 1.4);
     const expectMsg = `Hola, ${component.person.name}`;
-    const h3Debug: DebugElement = fixture.debugElement.query(By.css('h3'));
+    const h3Debug: DebugElement = query(fixture, 'h3');
     const h3: HTMLElement = h3Debug.nativeElement;
     // Act
     fixture.detectChanges();
@@ -43,7 +43,7 @@ describe('PersonComponent', () => {
   it('should have <p> with "Mi altura es {person.height}"', () => {
     // Arrange
     component.person = new Person('Valentina', 'Molina', 28, 89, 1.4);
-    const pDebug: DebugElement = fixture.debugElement.query(By.css('p'));
+    const pDebug: DebugElement = query(fixture, 'p');
     const pElement: HTMLElement = pDebug.nativeElement;
     // Act
     fixture.detectChanges();
@@ -55,9 +55,7 @@ describe('PersonComponent', () => {
     // Arrange
     const expectMsg = 'overweight level 3';
     component.person = new Person('Juan', 'Perez', 30, 120, 1.65);
-    const button = fixture.debugElement.query(
-      By.css('button.btn-imc')
-    ).nativeElement;
+    const button = query(fixture, 'button.btn-imc').nativeElement;
     // Act
     component.calculateIMC();
     fixture.detectChanges();
@@ -69,7 +67,7 @@ describe('PersonComponent', () => {
     // Arrange
     const expectMsg = 'overweight level 3';
     component.person = new Person('Juan', 'Perez', 30, 120, 1.65);
-    const buttonDe = fixture.debugElement.query(By.css('button.btn-imc'));
+    const buttonDe = query(fixture, 'button.btn-imc');
     const buttonEl = buttonDe.nativeElement;
     // Act
     buttonDe.triggerEventHandler('click', null);
@@ -82,7 +80,7 @@ describe('PersonComponent', () => {
     // Arrange
     const expectPerson = new Person('Juan', 'Perez', 30, 120, 1.65);
     component.person = expectPerson;
-    const buttonDe = fixture.debugElement.query(By.css('button.btn-choose'));
+    const buttonDe = query(fixture, 'button.btn-choose');
 
     let selectedPerson: Person | undefined;
     component.onSelected.subscribe((person) => {
@@ -132,7 +130,7 @@ describe('PersonComponent from HostComponent', () => {
   it('should display person name', () => {
     // Arrange
     const expectName = component.person.name;
-    const h3De = fixture.debugElement.query(By.css('app-person h3'));
+    const h3De = query(fixture, 'app-person h3');
     const h3El = h3De.nativeElement;
     // Act
     fixture.detectChanges();
@@ -142,7 +140,7 @@ describe('PersonComponent from HostComponent', () => {
 
   it('should raise selected event when clicked', () => {
     // Arrange
-    const btnDe = fixture.debugElement.query(By.css('app-person .btn-choose'));
+    const btnDe = query(fixture, 'app-person .btn-choose');
     // Act
     btnDe.triggerEventHandler('click', null);
     fixture.detectChanges();
