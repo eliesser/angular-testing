@@ -4,6 +4,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HighligthDirective } from './highligth.directive';
 import { FormsModule } from '@angular/forms';
 import { query, queryAll, queryAllByDirective } from '../../../testing';
+import { setInputValue } from '../../../testing/forms';
+import { getNativeElement } from '../../../testing/finders';
 
 @Component({
   standalone: true,
@@ -13,7 +15,7 @@ import { query, queryAll, queryAllByDirective } from '../../../testing';
     <h5 highligth="yellow">yellow</h5>
     <p highligth="blue">parrafo</p>
     <p>otro parrafo</p>
-    <input [(ngModel)]="color" [highligth]="color" />
+    <input data-testid="input" [(ngModel)]="color" [highligth]="color" />
   `,
 })
 class HostComponent {
@@ -63,13 +65,10 @@ describe('HighligthDirective', () => {
   });
 
   it('should bind <input> and change the bgColor', () => {
-    const inputDe = query(fixture, 'input');
-    const inputEl: HTMLInputElement = inputDe.nativeElement;
+    const inputEl = getNativeElement(fixture, 'input');
 
     expect(inputEl.style.backgroundColor).toEqual('pink');
-
-    inputEl.value = 'red';
-    inputEl.dispatchEvent(new Event('input'));
+    setInputValue(fixture, 'input', 'red', true);
     fixture.detectChanges();
 
     expect(inputEl.style.backgroundColor).toEqual('red');

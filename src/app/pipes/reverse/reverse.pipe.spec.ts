@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { ReversePipe } from './reverse.pipe';
 import { getNativeElement, getText } from '../../../testing';
+import { setInputValue } from '../../../testing/forms';
 
 describe('ReversePipe', () => {
   it('create an instance', () => {
@@ -60,12 +61,10 @@ describe('ReversePipe from HostComponent', () => {
   });
 
   it('should apply reverse pipe when typing in the input', () => {
-    const inputEl: HTMLInputElement = getNativeElement(fixture, 'input');
-
     expect(getText(fixture, 'p')).toEqual('');
 
-    inputEl.value = 'ANA 2'; // 2 ANA
-    inputEl.dispatchEvent(new Event('input'));
+    setInputValue(fixture, 'input', 'ANA 2', true);
+
     fixture.detectChanges();
 
     expect(getText(fixture, 'p')).toEqual('2 ANA');

@@ -4,8 +4,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterFormComponent } from './register-form.component';
 import { UsersService } from '../../../services/user/user.service';
 import { getNativeElement, getText, query } from '../../../../testing';
+import { setInputValue } from '../../../../testing/forms';
 
-fdescribe('RegisterFormComponent', () => {
+describe('RegisterFormComponent', () => {
   let component: RegisterFormComponent;
   let fixture: ComponentFixture<RegisterFormComponent>;
   let userService: jasmine.SpyObj<UsersService>;
@@ -67,12 +68,8 @@ fdescribe('RegisterFormComponent', () => {
 
   it('should the emailField be invalid from UI', () => {
     // Arrange
-    const inputEl = getNativeElement(fixture, 'email');
-
     // Act
-    inputEl.value = 'esto no es un correo';
-    inputEl.dispatchEvent(new Event('input'));
-    inputEl.dispatchEvent(new Event('blur'));
+    setInputValue(fixture, 'email', 'esto no es un correo', true);
     fixture.detectChanges();
 
     // Assert
