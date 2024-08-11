@@ -15,10 +15,10 @@ import { ValueService } from '../../services/value/value.service';
 import {
   asyncData,
   asyncError,
+  clickElement,
+  getText,
   mockObservable,
   mockPromise,
-  query,
-  queryById,
 } from '../../../testing';
 
 describe('ProductsComponent', () => {
@@ -127,16 +127,14 @@ describe('ProductsComponent', () => {
       // Arrange
       const mockMsg = 'my mock string';
       valueService.getPromiseValue.and.returnValue(mockPromise(mockMsg));
-      const btnDe = queryById(fixture, 'btn-promise');
       // Act
-      btnDe.triggerEventHandler('click', null);
+      clickElement(fixture, 'btn-promise', true);
       tick();
       fixture.detectChanges();
-      const rtaDe = query(fixture, 'p');
       // Assert
       expect(component.rta).toEqual(mockMsg);
       expect(valueService.getPromiseValue).toHaveBeenCalled();
-      expect(rtaDe.nativeElement.textContent).toEqual(mockMsg);
+      expect(getText(fixture, 'rta')).toEqual(mockMsg);
     }));
   });
 });

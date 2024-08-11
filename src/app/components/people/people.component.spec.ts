@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PeopleComponent } from './people.component';
 import { PersonComponent } from '../person/person.component';
 import { Person } from '../../models/person';
-import { query, queryAll } from '../../../testing';
+import { clickElement, getText, queryAll } from '../../../testing';
 
 describe('PeopleComponent', () => {
   let component: PeopleComponent;
@@ -39,13 +39,10 @@ describe('PeopleComponent', () => {
 
   it('should click on button Choose and valid selected person', () => {
     // Arrange
-    const btnDe = query(fixture, 'app-person .btn-choose');
     // Act
-    btnDe.triggerEventHandler('click', null);
+    clickElement(fixture, 'btn-choose', true);
     fixture.detectChanges();
-    const liDe = query(fixture, 'ul > li');
-    const liEl = liDe.nativeElement;
     // Assert
-    expect(liEl.textContent).toEqual(`Name: ${component.people[0].name}`);
+    expect(getText(fixture, 'li')).toEqual(`Name: ${component.people[0].name}`);
   });
 });
