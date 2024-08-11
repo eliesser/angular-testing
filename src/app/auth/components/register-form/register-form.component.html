@@ -26,6 +26,7 @@
         <label for="email">
           Email address
           <input
+            data-testid="email"
             type="email"
             id="email"
             name="email"
@@ -35,9 +36,9 @@
           />
           <ng-container *ngIf="emailField?.touched && emailField?.errors">
             <small *ngIf="emailField?.hasError('required')">*Required</small>
-            <small *ngIf="emailField?.hasError('email')"
-              >*It's not a email</small
-            >
+            <small data-testid="emailHasError" *ngIf="emailField?.hasError('email')" >
+              *It's not a email
+            </small>
           </ng-container>
         </label>
       </div>

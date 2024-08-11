@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { RegisterFormComponent } from './register-form.component';
 import { UsersService } from '../../../services/user/user.service';
+import { getNativeElement, getText, query } from '../../../../testing';
 
 fdescribe('RegisterFormComponent', () => {
   let component: RegisterFormComponent;
@@ -62,5 +63,25 @@ fdescribe('RegisterFormComponent', () => {
       checkTerms: false,
     });
     expect(component.form.invalid).toBeTruthy();
+  });
+
+  it('should the emailField be invalid from UI', () => {
+    // Arrange
+    const inputEl = getNativeElement(fixture, 'email');
+
+    // Act
+    inputEl.value = 'esto no es un correo';
+    inputEl.dispatchEvent(new Event('input'));
+    inputEl.dispatchEvent(new Event('blur'));
+    fixture.detectChanges();
+
+    // Assert
+    expect(component.emailField?.invalid)
+      .withContext('wrong email')
+      .toBeTruthy();
+
+    expect(getText(fixture, 'emailHasError'))
+      .withContext('wrong msg')
+      .toContain("It's not a email");
   });
 });
