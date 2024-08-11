@@ -8,13 +8,17 @@ import {
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { defer, of } from 'rxjs';
-
 import { ProductsComponent } from './products.component';
 import { ProductComponent } from '../product/product.component';
 import { ProductsService } from '../../services/products/products.service';
 import { generateManyProducts } from '../../models/products.mock';
 import { ValueService } from '../../services/value/value.service';
+import {
+  asyncData,
+  asyncError,
+  mockObservable,
+  mockPromise,
+} from '../../../testing';
 
 describe('ProductsComponent', () => {
   let component: ProductsComponent;
@@ -49,7 +53,7 @@ describe('ProductsComponent', () => {
     valueService = TestBed.inject(ValueService) as jasmine.SpyObj<ValueService>;
 
     const productsMock = generateManyProducts(3);
-    productService.getAll.and.returnValue(of(productsMock));
+    productService.getAll.and.returnValue(mockObservable(productsMock));
     fixture.detectChanges();
   });
 
@@ -62,7 +66,7 @@ describe('ProductsComponent', () => {
     it('should return product list from service', () => {
       // Arrange
       const productsMock = generateManyProducts(10);
-      productService.getAll.and.returnValue(of(productsMock));
+      productService.getAll.and.returnValue(mockObservable(productsMock));
       const countPrev = component.products.length;
       // Act
       component.getAllProducts();
@@ -76,9 +80,7 @@ describe('ProductsComponent', () => {
     it('should change the status "loading" => "success"', fakeAsync(() => {
       // Arrange
       const productsMock = generateManyProducts(10);
-      productService.getAll.and.returnValue(
-        defer(() => Promise.resolve(productsMock))
-      );
+      productService.getAll.and.returnValue(asyncData(productsMock));
       // Act
       component.getAllProducts();
       fixture.detectChanges();
@@ -93,9 +95,7 @@ describe('ProductsComponent', () => {
 
     it('should change the status "loading" => "error"', fakeAsync(() => {
       // Arrange
-      productService.getAll.and.returnValue(
-        defer(() => Promise.reject('error'))
-      );
+      productService.getAll.and.returnValue(asyncError('error'));
       // Act
       component.getAllProducts();
       fixture.detectChanges();
@@ -113,7 +113,7 @@ describe('ProductsComponent', () => {
     it('should call to promise', async () => {
       // Arrange
       const mockMsg = 'my mock string';
-      valueService.getPromiseValue.and.returnValue(Promise.resolve(mockMsg));
+      valueService.getPromiseValue.and.returnValue(mockPromise(mockMsg));
       // Act
       await component.callPromise();
       fixture.detectChanges();
@@ -125,7 +125,7 @@ describe('ProductsComponent', () => {
     it('should show "my mock string" in <p> when btn was clicked', fakeAsync(() => {
       // Arrange
       const mockMsg = 'my mock string';
-      valueService.getPromiseValue.and.returnValue(Promise.resolve(mockMsg));
+      valueService.getPromiseValue.and.returnValue(mockPromise(mockMsg));
       const btnDe = fixture.debugElement.query(By.css('button'));
       // Act
       btnDe.triggerEventHandler('click', null);
