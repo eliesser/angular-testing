@@ -10,38 +10,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { clickElement, query, queryAllByDirective } from '../testing';
 
-@Component({
-  standalone: true,
-  selector: 'app-people',
-})
-class PeopleComponent {}
-
-@Component({
-  standalone: true,
-  selector: 'app-others',
-})
-class OthersComponent {}
-
-@Component({
-  standalone: true,
-  selector: 'app-pico-preview',
-})
-class PicoPreviewComponent {}
-
-const routes = [
-  {
-    path: 'pico-preview',
-    component: PicoPreviewComponent,
-  },
-  {
-    path: 'people',
-    component: PeopleComponent,
-  },
-  {
-    path: 'others',
-    component: OthersComponent,
-  },
-];
+import { routes } from './app.routes';
+import { PeopleComponent } from './components/people/people.component';
+import { OthersComponent } from './components/others/others.component';
+import { PicoPreviewComponent } from './components/pico-preview/pico-preview.component';
 
 fdescribe('App Integration test', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -83,7 +55,7 @@ fdescribe('App Integration test', () => {
     expect(links.length).toEqual(7);
   });
 
-  it('should render OthersComponent when clicked', fakeAsync(() => {
+  it('should render OtherComponent when clicked', fakeAsync(() => {
     clickElement(fixture, 'others-link', true);
 
     tick(); // wait while nav...
@@ -91,6 +63,17 @@ fdescribe('App Integration test', () => {
 
     expect(router.url).toEqual('/others');
     const element = query(fixture, 'app-others');
+    expect(element).not.toBeNull();
+  }));
+
+  it('should render PicoPreviewComponent when clicked', fakeAsync(() => {
+    clickElement(fixture, 'pico-link', true);
+
+    tick(); // wait while nav...
+    fixture.detectChanges(); // ngOnInit - PicoPreviewComponent
+
+    expect(router.url).toEqual('/pico-preview');
+    const element = query(fixture, 'app-pico-preview');
     expect(element).not.toBeNull();
   }));
 });
