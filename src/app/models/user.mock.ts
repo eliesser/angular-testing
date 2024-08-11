@@ -7,7 +7,7 @@ export const generateOneUser = (): User => {
     id: faker.string.uuid(),
     email: faker.internet.email(),
     password: faker.internet.password(),
-    name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+    name: `${faker.person.firstName()} ${faker.person.lastName()}`,
     role: 'customer',
   };
 };

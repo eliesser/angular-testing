@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { MyValidators } from '../../../utils/validators';
 import { UsersService } from '../../../services/user/user.service';
 import { CreateUserDTO, User } from '../../../models/user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-form',
@@ -42,7 +43,11 @@ export class RegisterFormComponent implements OnInit {
   );
   status: 'loading' | 'success' | 'error' | 'init' = 'init';
 
-  constructor(private fb: FormBuilder, private usersService: UsersService) {}
+  constructor(
+    private fb: FormBuilder,
+    private usersService: UsersService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {}
 
@@ -56,6 +61,7 @@ export class RegisterFormComponent implements OnInit {
           // redirect
           // alert
           this.status = 'success';
+          this.router.navigateByUrl('/login');
         },
         error: (error) => {
           // redict

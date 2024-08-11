@@ -9,9 +9,9 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { ProductsComponent } from './products.component';
 import { ProductComponent } from '../product/product.component';
-import { ProductsService } from '../../services/products/products.service';
-import { generateManyProducts } from '../../models/products.mock';
-import { ValueService } from '../../services/value/value.service';
+import { ProductsService } from '../../../services/products/products.service';
+import { generateManyProducts } from '../../../models/products.mock';
+import { ValueService } from '../../../services/value/value.service';
 import {
   asyncData,
   asyncError,
@@ -19,7 +19,9 @@ import {
   getText,
   mockObservable,
   mockPromise,
-} from '../../../testing';
+} from '../../../../testing';
+import { Router } from '@angular/router';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ProductsComponent', () => {
   let component: ProductsComponent;
@@ -36,13 +38,14 @@ describe('ProductsComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      imports: [ProductsComponent, ProductComponent],
+      declarations: [ProductsComponent, ProductComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
         { provide: ProductsService, useValue: productServiceSpy },
         { provide: ValueService, useValue: valueServiceSpy },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProductsComponent);

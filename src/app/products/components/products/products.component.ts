@@ -1,15 +1,11 @@
 import { Component } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
 
-import { ProductsService } from '../../services/products/products.service';
-import { Product } from '../../models/product.model';
-import { ProductComponent } from '../product/product.component';
-import { ValueService } from '../../services/value/value.service';
+import { ProductsService } from '../../../services/products/products.service';
+import { Product } from '../../../models/product.model';
+import { ValueService } from '../../../services/value/value.service';
 
 @Component({
   selector: 'app-products',
-  standalone: true,
-  imports: [NgFor, NgIf, ProductComponent],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
 })

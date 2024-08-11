@@ -62,7 +62,7 @@ export class ProductsService {
     return zip(this.getOne(id), this.update(id, dto));
   }
 
-  getOne(id: string) {
+  getOne(id: string): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrl}/products/${id}`).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === HttpStatusCode.Conflict) {
@@ -83,7 +83,7 @@ export class ProductsService {
     return this.http.post<Product>(`${this.apiUrl}/products`, dto);
   }
 
-  update(id: string, dto: UpdateProductDTO) {
+  update(id: string, dto: UpdateProductDTO): Observable<Product> {
     return this.http.put<Product>(`${this.apiUrl}/products/${id}`, dto);
   }
 
