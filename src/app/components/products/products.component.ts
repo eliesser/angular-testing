@@ -32,12 +32,12 @@ export class ProductsComponent {
   getAllProducts() {
     this.status = 'loading';
     this.productsService.getAll(this.limit, this.offset).subscribe({
-      next: (products) => {
+      next: (products: Product[]) => {
         this.products = [...this.products, ...products];
         this.offset += this.limit;
         this.status = 'success';
       },
-      error: (error) => {
+      error: (error: any) => {
         setTimeout(() => {
           this.products = [];
           this.status = 'error';

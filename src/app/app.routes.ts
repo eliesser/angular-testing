@@ -22,4 +22,8 @@ export const routes: Routes = [
     path: 'others',
     component: OthersComponent,
   },
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
 ];

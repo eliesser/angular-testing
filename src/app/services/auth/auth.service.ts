@@ -3,8 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { switchMap, tap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 
-import { Auth } from './../../models/auth.model';
-import { User } from './../../models/user.model';
+import { Auth } from '../../models/auth.model';
+import { User } from '../../models/user.model';
 import { environment } from '../../../environments/environments';
 import { TokenService } from '../token/token.service';
 
