@@ -11,6 +11,7 @@
         <label for="name">
           Full Name
           <input
+            #name
             type="text"
             id="name"
             name="name"
@@ -26,6 +27,7 @@
         <label for="email">
           Email address
           <input
+            #email
             data-testid="email"
             type="email"
             id="email"
@@ -46,6 +48,7 @@
       <label for="password">
         Password
         <input
+          #password
           type="password"
           id="password"
           name="email"
@@ -69,6 +72,7 @@
       <label for="confirmPassword">
         Confirm Password
         <input
+          #password
           type="password"
           id="confirmPassword"
           name="confirmPassword"
@@ -94,6 +98,7 @@
       <fieldset>
         <label for="terms">
           <input
+            #checkbox
             type="checkbox"
             id="terms"
             name="terms"
@@ -105,7 +110,7 @@
           I agree to the Terms and Conditions
         </label>
       </fieldset>
-      <button type="submit">Register</button>
+      <button data-testid="btn-submit" type="submit">Register</button>
     </div>
   </form>
 </section>

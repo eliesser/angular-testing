@@ -36,6 +36,7 @@ export class RegisterFormComponent implements OnInit {
       validators: MyValidators.matchPasswords,
     }
   );
+  status: 'loading' | 'success' | 'error' | 'init' = 'init';
 
   constructor(private fb: FormBuilder, private usersService: UsersService) {}
 
@@ -44,9 +45,18 @@ export class RegisterFormComponent implements OnInit {
   register(event: Event) {
     event.preventDefault();
     if (this.form.valid) {
+      this.status = 'loading';
       const value: any = this.form.value;
-      this.usersService.create(value).subscribe((rta: User) => {
-        console.log(rta);
+      this.usersService.create(value).subscribe({
+        next: (rta) => {
+          // redirect
+          // alert
+          this.status = 'success';
+        },
+        error: (error) => {
+          // redict
+          this.status = 'error';
+        },
       });
     } else {
       this.form.markAllAsTouched();
