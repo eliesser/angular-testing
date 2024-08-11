@@ -12,7 +12,7 @@ import {
 } from '../../testing';
 import { generateOneUser } from '../models/user.mock';
 
-fdescribe('Tests for AuthGuard', () => {
+describe('Tests for AuthGuard', () => {
   let guard: AuthGuard;
   let tokenService: jasmine.SpyObj<TokenService>;
   let authService: jasmine.SpyObj<AuthService>;
