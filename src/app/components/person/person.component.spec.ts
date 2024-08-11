@@ -119,9 +119,7 @@ describe('PersonComponent from HostComponent', () => {
     await TestBed.configureTestingModule({
       imports: [HostComponent, PersonComponent],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(HostComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
