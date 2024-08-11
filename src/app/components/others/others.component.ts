@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 
 import { HighligthDirective } from '../../directives/highligth/highligth.directive';
 import { ReversePipe } from '../../pipes/reverse/reverse.pipe';
+import { Product } from '../../models/product.model';
+import { ProductsService } from '../../services/products/products.service';
 
 @Component({
   selector: 'app-others',
@@ -12,6 +14,15 @@ import { ReversePipe } from '../../pipes/reverse/reverse.pipe';
   styleUrl: './others.component.scss',
 })
 export class OthersComponent {
-  color = 'pink';
-  text = 'roma';
+  color = 'yellow';
+  text = 'Un texto';
+  products: Product[] = [];
+
+  constructor(private productService: ProductsService) {}
+
+  ngOnInit() {
+    this.productService.getAll().subscribe((data) => {
+      this.products = data;
+    });
+  }
 }

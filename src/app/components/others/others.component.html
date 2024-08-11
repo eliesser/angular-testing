@@ -1,10 +1,11 @@
 <section class="container">
-  <h3>Directiva</h3>
-  <h5 class="title" highligth>default</h5>
-  <h5 highligth="yellow">yellow</h5>
-  <input [(ngModel)]="color" [highligth]="color">
-  <h3>Pipe</h3>
-  <p>{{ 'my texto' | reverse }}</p>
-  <input [(ngModel)]="text">
+  <h1 data-testid="products-length">Total {{ products.length }}</h1>
+  <h5 highligth="yellow">Something Yellow</h5>
+  <h5 highligth>The Default (Gray)</h5>
+  <h5>No Highlight</h5>
+  <input [(ngModel)]="color" [highligth]="color" />
+
+  <h3>{{ 'Texto largo' | reverse }}</h3>
+  <input [(ngModel)]="text" />
   <p>{{ text | reverse }}</p>
 </section>
