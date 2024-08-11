@@ -1,11 +1,11 @@
-import { TestBed } from '@angular/core/testing';
-
-import { AuthService } from './auth.service';
+import { provideHttpClient } from '@angular/common/http';
 import {
   HttpTestingController,
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
-import { provideHttpClient } from '@angular/common/http';
+import { TestBed } from '@angular/core/testing';
+
+import { AuthService } from './auth.service';
 
 import { Auth } from '../../models/auth.model';
 import { TokenService } from '../token/token.service';

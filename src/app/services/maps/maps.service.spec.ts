@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
 import { MapsService } from './maps.service';
-import { timestamp } from 'rxjs';
 
 describe('MapsService', () => {
   let mapService: MapsService;

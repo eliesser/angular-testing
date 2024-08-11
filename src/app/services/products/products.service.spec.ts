@@ -7,7 +7,6 @@ import {
   HTTP_INTERCEPTORS,
   HttpStatusCode,
   provideHttpClient,
-  withInterceptors,
   withInterceptorsFromDi,
 } from '@angular/common/http';
 
