@@ -1,33 +1,40 @@
-import { TestBed } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 
+import { AppComponent } from './app.component';
+import { queryAllByDirective, RouterLinkDirectiveStub } from '../testing';
+
 describe('AppComponent', () => {
+  let fixture: ComponentFixture<AppComponent>;
+  let component: AppComponent;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent],
+      imports: [AppComponent, RouterLinkDirectiveStub],
       providers: [{ provide: ActivatedRoute, useValue: {} }],
     }).compileComponents();
+
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
-  it(`should have the 'testing-services' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('testing-services');
+  it('should there are 7 routerLinks', () => {
+    const links = queryAllByDirective(fixture, RouterLinkDirectiveStub);
+    expect(links.length).toEqual(7);
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Angular testing'
+  it('should there are 7 routerLinks with match routes', () => {
+    const links = queryAllByDirective(fixture, RouterLinkDirectiveStub);
+    const routerLinks = links.map((link) =>
+      link.injector.get(RouterLinkDirectiveStub)
     );
+    expect(links.length).toEqual(7);
+    expect(routerLinks[0].linkParams).toEqual('/');
+    expect(routerLinks[1].linkParams).toEqual('/auth/register');
   });
 });

@@ -3,8 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
 import { ReversePipe } from './reverse.pipe';
-import { getNativeElement, getText } from '../../../testing';
-import { setInputValue } from '../../../testing/forms';
+import { getText, setInputValue } from '../../../testing';
 
 describe('ReversePipe', () => {
   it('create an instance', () => {

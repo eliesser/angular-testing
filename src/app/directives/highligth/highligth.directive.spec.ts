@@ -3,9 +3,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HighligthDirective } from './highligth.directive';
 import { FormsModule } from '@angular/forms';
-import { query, queryAll, queryAllByDirective } from '../../../testing';
-import { setInputValue } from '../../../testing/forms';
-import { getNativeElement } from '../../../testing/finders';
+import {
+  query,
+  queryAll,
+  queryAllByDirective,
+  getNativeElement,
+  setInputValue,
+} from '../../../testing';
 
 @Component({
   standalone: true,
