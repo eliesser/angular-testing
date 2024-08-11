@@ -22,7 +22,14 @@ export class RegisterFormComponent implements OnInit {
           MyValidators.validPassword,
         ],
       ],
-      confirmPassword: ['', [Validators.required]],
+      confirmPassword: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          MyValidators.validPassword,
+        ],
+      ],
       checkTerms: [false, [Validators.requiredTrue]],
     },
     {

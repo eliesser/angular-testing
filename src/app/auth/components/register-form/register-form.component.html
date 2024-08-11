@@ -70,7 +70,7 @@
         <input
           type="password"
           id="confirmPassword"
-          name="email"
+          name="confirmPassword"
           placeholder="Confirm password"
           formControlName="confirmPassword"
           [attr.aria-invalid]="
@@ -79,8 +79,14 @@
               : ''
           "
         />
-        <ng-container *ngIf="confirmPasswordField?.touched && form?.errors">
-          <small *ngIf="form?.hasError('match_password')">*Not matching</small>
+        <ng-container *ngIf="confirmPasswordField?.touched && confirmPasswordField?.errors">
+          <small *ngIf="confirmPasswordField?.hasError('required')">*Required</small>
+          <small *ngIf="confirmPasswordField?.hasError('minlength')"
+            >*Should be greater 6</small
+          >
+          <small *ngIf="confirmPasswordField?.hasError('invalid_password')"
+            >*Should contain numbers</small
+          >
         </ng-container>
       </label>
 
